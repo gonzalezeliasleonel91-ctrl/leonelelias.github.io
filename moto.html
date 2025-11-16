@@ -1,0 +1,905 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoCatálogo - Tu tienda de motos online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #1d3557;
+            --accent-color: #a8dadc;
+            --light-color: #f1faee;
+            --dark-color: #457b9d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+         -d   font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--light-color);
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;#
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--light-color);
+            color: var(--light-color);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.9)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Secciones */
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        /* Catálogo de motos */
+        .catalog-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .motos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .moto-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .moto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .moto-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .moto-info {
+            padding: 1.5rem;
+        }
+        
+        .moto-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .moto-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .moto-features {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .moto-features li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .moto-features li i {
+            color: var(--dark-color);
+            margin-right: 8px;
+        }
+        
+        /* Formularios */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--dark-color);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            animation: modalOpen 0.3s;
+        }
+        
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .modal-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        /* Contacto */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .motos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Moto<span>Catálogo</span></div>
+                <nav>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Iniciar Sesión</button>
+                    <button class="btn btn-primary" id="registerBtn">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Encuentra la Moto de tus Sueños</h1>
+            <p>Explora nuestro amplio catálogo de motos de alta calidad. Desde deportivas hasta urbanas, tenemos el modelo perfecto para ti.</p>
+            <button class="btn btn-primary" id="exploreBtn">Explorar Catálogo</button>
+        </div>
+    </section>
+
+    <!-- Catálogo de Motos -->
+    <section id="catalogo">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestro Catálogo</h2>
+                <p>Descubre nuestra selección de motos premium</p>
+            </div>
+            
+            <div class="catalog-filters">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="deportiva">Deportivas</button>
+                <button class="filter-btn" data-filter="naked">Naked</button>
+                <button class="filter-btn" data-filter="scooter">Scooters</button>
+                <button class="filter-btn" data-filter="custom">Custom</button>
+            </div>
+            
+            <div class="motos-grid">
+                <!-- Moto 1 -->
+                <div class="moto-card" data-category="deportiva">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Yamaha R1" class="moto-img">
+                    <div class="moto-info">
+                        <h3>Yamaha YZF-R1</h3>
+                        <div class="moto-price">$15,499</div>
+                        <ul class="moto-features">
+                            <li><i class="fas fa-tachometer-alt"></i> 200 CV</li>
+                            <li><i class="fas fa-weight"></i> 201 kg</li>
+                            <li><i class="fas fa-gas-pump"></i> 17 L</li>
+                            <li><i class="fas fa-cogs"></i> 6 velocidades</li>
+                        </ul>
+                        <button class="btn btn-primary btn-comprar" data-moto="Yamaha YZF-R1" data-precio="15499">Comprar Ahora</button>
+                    </div>
+                </div>
+                
+                <!-- Moto 2 -->
+                <div class="moto-card" data-category="naked">
+                    <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Kawasaki Z900" class="moto-img">
+                    <div class="moto-info">
+                        <h3>Kawasaki Z900</h3>
+                        <div class="moto-price">$9,299</div>
+                        <ul class="moto-features">
+                            <li><i class="fas fa-tachometer-alt"></i> 125 CV</li>
+                            <li><i class="fas fa-weight"></i> 212 kg</li>
+                            <li><i class="fas fa-gas-pump"></i> 17 L</li>
+                            <li><i class="fas fa-cogs"></i> 6 velocidades</li>
+                        </ul>
+                        <button class="btn btn-primary btn-comprar" data-moto="Kawasaki Z900" data-precio="9299">Comprar Ahora</button>
+                    </div>
+                </div>
+                
+                <!-- Moto 3 -->
+                <div class="moto-card" data-category="scooter">
+                    <img src="https://images.unsplash.com/photo-1558618667-6fd90c03f8b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Vespa Primavera" class="moto-img">
+                    <div class="moto-info">
+                        <h3>Vespa Primavera 150</h3>
+                        <div class="moto-price">$4,899</div>
+                        <ul class="moto-features">
+                            <li><i class="fas fa-tachometer-alt"></i> 12.7 CV</li>
+                            <li><i class="fas fa-weight"></i> 122 kg</li>
+                            <li><i class="fas fa-gas-pump"></i> 8 L</li>
+                            <li><i class="fas fa-cogs"></i> Automática</li>
+                        </ul>
+                        <button class="btn btn-primary btn-comprar" data-moto="Vespa Primavera 150" data-precio="4899">Comprar Ahora</button>
+                    </div>
+                </div>
+                
+                <!-- Moto 4 -->
+                <div class="moto-card" data-category="custom">
+                    <img src="https://images.unsplash.com/photo-1558980664-1db506751c6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Harley Davidson" class="moto-img">
+                    <div class="moto-info">
+                        <h3>Harley Davidson Softail</h3>
+                        <div class="moto-price">$18,999</div>
+                        <ul class="moto-features">
+                            <li><i class="fas fa-tachometer-alt"></i> 89 CV</li>
+                            <li><i class="fas fa-weight"></i> 304 kg</li>
+                            <li><i class="fas fa-gas-pump"></i> 13.2 L</li>
+                            <li><i class="fas fa-cogs"></i> 6 velocidades</li>
+                        </ul>
+                        <button class="btn btn-primary btn-comprar" data-moto="Harley Davidson Softail" data-precio="18999">Comprar Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contáctanos</h2>
+                <p>¿Tienes preguntas? Estamos aquí para ayudarte</p>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fab fa-whatsapp"></i>
+                    <h3>WhatsApp</h3>
+                    <p>+1 (555) 123-4567</p>
+                    <button class="btn btn-primary" id="whatsappBtn">Enviar Mensaje</button>
+                </div>
+                
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Correo Electrónico</h3>
+                    <p>info@motocatalogo.com</p>
+                    <button class="btn btn-primary" id="emailBtn">Enviar Correo</button>
+                </div>
+                
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Ubicación</h3>
+                    <p>Calle Principal 123, Ciudad</p>
+                    <button class="btn btn-primary" id="locationBtn">Ver en Mapa</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MotoCatálogo</h3>
+                    <p>Tu destino para encontrar la moto perfecta. Calidad, confianza y servicio excepcional.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Categorías</h3>
+                    <ul>
+                        <li><a href="#">Deportivas</a></li>
+                        <li><a href="#">Naked</a></li>
+                        <li><a href="#">Scooters</a></li>
+                        <li><a href="#">Custom</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Garantías</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 MotoCatálogo. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Registro -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Crear Cuenta</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Contraseña</label>
+                        <input type="password" id="confirmPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Iniciar Sesión</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Correo Electrónico</label>
+                        <input type="email" id="loginEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" id="loginPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Compra -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Completar Compra</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="purchaseDetails">
+                    <h3 id="purchaseMotoName"></h3>
+                    <p id="purchaseMotoPrice"></p>
+                </div>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label for="cardNumber">Número de Tarjeta</label>
+                        <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">Nombre en la Tarjeta</label>
+                        <input type="text" id="cardName" class="form-control" required>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="expiryDate">Fecha de Vencimiento</label>
+                            <input type="text" id="expiryDate" class="form-control" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Pagar Ahora</button>
+                </form><!DOCTYPE html>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Título de la página</title>
+                </head>
+                <body>
+                    <!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Título de la página</title>
+                    </head>
+                    <body>
+                        <!DOCTYPE html>
+                        <html lang="es">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>Título de la página</title>
+                        </head>
+                        <body>
+                            <span><span><span><span></span></span></span></span>
+                        </body>
+                        </html>
+                    </body>
+                    </html>
+                </body>
+                </html>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>¡Compra Exitosa!</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 1rem;"></i>
+                <h3>¡Felicidades!</h3>
+                <p>Tu compra de <span id="confirmedMotoName"></span> ha sido procesada exitosamente.</p>
+                <p>Hemos enviado un correo de verificación a tu dirección de email.</p>
+                <p>Tu certificado digital estará disponible en tu cuenta.</p>
+                <button class="btn btn-primary" id="closeConfirmation">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const registerBtn = document.getElementById('registerBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const exploreBtn = document.getElementById('exploreBtn');
+        const registerModal = document.getElementById('registerModal');
+        const loginModal = document.getElementById('loginModal');
+        const purchaseModal = document.getElementById('purchaseModal');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeButtons = document.querySelectorAll('.modal-close');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const motoCards = document.querySelectorAll('.moto-card');
+        const buyButtons = document.querySelectorAll('.btn-comprar');
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+        const paymentForm = document.getElementById('paymentForm');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const emailBtn = document.getElementById('emailBtn');
+        const closeConfirmation = document.getElementById('closeConfirmation');
+        
+        // Variables para almacenar datos
+        let selectedMoto = null;
+        let isLoggedIn = false;
+        
+        // Abrir modales
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'flex';
+        });
+        
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+        
+        exploreBtn.addEventListener('click', () => {
+            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Cerrar modales
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                purchaseModal.style.display = 'none';
+                confirmationModal.style.display = 'none';
+            });
+        });
+        
+        // Cerrar modal de confirmación
+        closeConfirmation.addEventListener('click', () => {
+            confirmationModal.style.display = 'none';
+        });
+        
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === purchaseModal) {
+                purchaseModal.style.display = 'none';
+            }
+            if (e.target === confirmationModal) {
+                confirmationModal.style.display = 'none';
+            }
+        });
+        
+        // Filtrado de motos
+        filterBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remover clase active de todos los botones
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                // Agregar clase active al botón clickeado
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                
+                motoCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Proceso de compra
+        buyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (!isLoggedIn) {
+                    alert('Debes iniciar sesión para realizar una compra');
+                    loginModal.style.display = 'flex';
+                    return;
+                }
+                
+                selectedMoto = {
+                    name: button.getAttribute('data-moto'),
+                    price: button.getAttribute('data-precio')
+                };
+                
+                document.getElementById('purchaseMotoName').textContent = selectedMoto.name;
+                document.getElementById('purchaseMotoPrice').textContent = `Precio: $${selectedMoto.price}`;
+                
+                purchaseModal.style.display = 'flex';
+            });
+        });
+        
+        // Formulario de registro
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Registro exitoso. Ahora puedes iniciar sesión.');
+            registerModal.style.display = 'none';
+        });
+        
+        // Formulario de login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            isLoggedIn = true;
+            loginBtn.textContent = 'Mi Cuenta';
+            alert('Inicio de sesión exitoso');
+            loginModal.style.display = 'none';
+        });
+        
+        // Formulario de pago
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            purchaseModal.style.display = 'none';
+            
+            document.getElementById('confirmedMotoName').textContent = selectedMoto.name;
+            confirmationModal.style.display = 'flex';
+            
+            // Simular envío de correo de verificación
+            setTimeout(() => {
+                alert(`Se ha enviado un correo de verificación para tu compra de ${selectedMoto.name}`);
+            }, 1000);
+        });
+        
+        // Botones de contacto
+        whatsappBtn.addEventListener('click', () => {
+            window.open('https://wa.me/15551234567?text=Hola,%20me%20interesa%20saber%20más%20sobre%20sus%20motos', '_blank');
+        });
+        
+        emailBtn.addEventListener('click', () => {
+            window.location.href = 'mailto:info@motocatalogo.com?subject=Consulta%20sobre%20motocicletas';
+        });
+    </script>
+</body>
+</html>
